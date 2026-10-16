@@ -1,0 +1,190 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+  <meta name="theme-color" content="#0b1520">
+  <title>میز ورق | حکم و شلم</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/rastikerdar/vazirmatn@v33.003/Vazirmatn-font-face.css">
+  <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<div id="app">
+
+  <!-- بارگذاری -->
+  <section id="scr-loading" class="screen active">
+    <div class="loader">
+      <div class="loader-cards"><span>♠</span><span class="r">♥</span><span>♣</span><span class="r">♦</span></div>
+      <p id="loading-text">در حال اتصال به میز…</p>
+    </div>
+  </section>
+
+  <!-- خانه -->
+  <section id="scr-home" class="screen">
+    <header class="home-head">
+      <div class="me"><div class="avatar" id="me-avatar"></div><div><div class="hello">سلام 👋</div><div id="me-name" class="me-name"></div></div></div>
+      <button class="icon-btn" data-open="settings" aria-label="تنظیمات">⚙️</button>
+    </header>
+    <div class="brand">
+      <div class="brand-ornament">✦ ✦ ✦</div>
+      <h1>میز <span>ورق</span></h1>
+      <p>حکم و شلم، اصیل و ایرانی</p>
+    </div>
+    <div class="game-cards">
+      <button class="game-card hokm" data-game="hokm">
+        <div class="gc-suits"><span>♠</span><span class="r">♥</span></div>
+        <h2>حکم</h2>
+        <p>۴ نفره · دو تیم · ۷ دست</p>
+        <span class="gc-go">بازی ←</span>
+      </button>
+      <button class="game-card shelem" data-game="shelem">
+        <div class="gc-suits"><span class="r">♦</span><span>♣</span></div>
+        <h2>شلم</h2>
+        <p>بید · خاک · ۱۶۵ امتیاز</p>
+        <span class="gc-go">بازی ←</span>
+      </button>
+    </div>
+    <div class="join-box">
+      <input id="join-code" maxlength="8" placeholder="کد میز دوستت" autocomplete="off" dir="ltr">
+      <button id="btn-join" class="btn">ورود</button>
+    </div>
+    <button class="link-btn" data-open="rules">📖 قوانین بازی‌ها</button>
+  </section>
+
+  <!-- لابی -->
+  <section id="scr-lobby" class="screen">
+    <header class="lobby-head">
+      <button class="icon-btn" data-act="leave" aria-label="خروج">✕</button>
+      <div class="lb-titles"><h2 id="lb-title">میز</h2><div id="lb-meta" class="muted"></div></div>
+      <button class="icon-btn" data-open="settings" aria-label="تنظیمات">⚙️</button>
+    </header>
+    <div class="room-code" data-act="copy"><span class="muted">کد میز</span><b id="lb-code" dir="ltr">------</b><small>📋 کپی لینک</small></div>
+    <div class="lobby-table">
+      <div class="lt-felt"><span id="lb-game-sym">♠</span></div>
+      <div class="lseat" data-rel="2"></div>
+      <div class="lseat" data-rel="1"></div>
+      <div class="lseat" data-rel="3"></div>
+      <div class="lseat" data-rel="0"></div>
+    </div>
+    <div class="lobby-actions">
+      <button class="btn tg" data-act="share">📨 دعوت دوستان در تلگرام</button>
+      <div id="lb-host-actions"></div>
+      <p id="lb-hint" class="muted center"></p>
+    </div>
+  </section>
+
+  <!-- بازی -->
+  <section id="scr-game" class="screen">
+    <div class="topbar">
+      <button class="icon-btn sm" data-act="leave" aria-label="خروج">✕</button>
+      <div class="scoreboard">
+        <div class="team us"><span>ما</span><b id="sc-us">۰</b></div>
+        <div class="sc-mid"><div id="sc-game">حکم</div><small id="sc-target"></small></div>
+        <div class="team them"><span>حریف</span><b id="sc-them">۰</b></div>
+      </div>
+      <button class="icon-btn sm" data-open="settings" aria-label="تنظیمات">⚙️</button>
+    </div>
+    <div class="hand-info" id="hand-info"></div>
+    <div class="table" id="table">
+      <div class="felt"></div>
+      <div class="seat" data-rel="2"></div>
+      <div class="seat" data-rel="1"></div>
+      <div class="seat" data-rel="3"></div>
+      <div class="trump-badge" id="trump-badge"></div>
+      <div class="trick" id="trick"></div>
+      <div class="status" id="status"></div>
+      <div class="fx" id="fx"></div>
+      <svg class="crack" id="crack" viewBox="0 0 400 400" preserveAspectRatio="none"></svg>
+      <div class="cut-text" id="cut-text">بُرید!</div>
+      <button class="emoji-btn" id="emoji-btn" aria-label="ایموجی">😊</button>
+      <div class="emoji-pop" id="emoji-pop"></div>
+    </div>
+    <div class="seat me-bar" data-rel="0"></div>
+    <div class="timer" id="timer"><i></i></div>
+    <div class="actions" id="actions"></div>
+    <div class="hand" id="hand"></div>
+  </section>
+
+  <!-- ساخت میز -->
+  <div class="sheet-back" id="sheet-back"></div>
+  <div class="sheet" id="sheet-create">
+    <div class="sheet-grip"></div>
+    <h3 id="cr-title">میز حکم</h3>
+    <label class="field-label">نوع بازی</label>
+    <div class="seg" data-opt="mode">
+      <button data-v="bots" class="on">🤖 با ربات‌ها</button>
+      <button data-v="online">👥 با دوستان</button>
+    </div>
+    <label class="field-label">سطح ربات‌ها</label>
+    <div class="seg" data-opt="level">
+      <button data-v="easy">آسان</button>
+      <button data-v="medium" class="on">متوسط</button>
+      <button data-v="hard">سخت</button>
+    </div>
+    <label class="field-label">امتیاز پایان بازی</label>
+    <div class="seg" data-opt="target" id="cr-targets"></div>
+    <p class="muted small" id="cr-hint">سه ربات کنار تو می‌نشینند و بازی فوراً شروع می‌شود.</p>
+    <button class="btn big" id="btn-create">🎴 ساخت میز</button>
+  </div>
+
+  <!-- نتیجه -->
+  <div class="overlay" id="result">
+    <div class="result-card">
+      <div class="res-emoji" id="res-emoji">🎉</div>
+      <h2 id="res-title"></h2>
+      <div id="res-body"></div>
+      <div class="res-scores" id="res-scores"></div>
+      <div class="res-actions" id="res-actions"></div>
+    </div>
+  </div>
+
+  <!-- تنظیمات -->
+  <div class="modal" id="modal-settings">
+    <div class="modal-card">
+      <div class="modal-head"><h3>⚙️ تنظیمات</h3><button class="icon-btn sm" data-close>✕</button></div>
+      <div class="set-row"><span>🎵 موسیقی پس‌زمینه</span><label class="switch"><input type="checkbox" id="set-music"><i></i></label></div>
+      <div class="set-row"><span>حجم موسیقی</span><input type="range" min="0" max="1" step="0.05" id="set-music-vol"></div>
+      <div class="set-row"><span>🔊 افکت‌های صوتی</span><input type="range" min="0" max="1" step="0.05" id="set-sfx-vol"></div>
+      <div class="set-row"><span>📳 لرزش</span><label class="switch"><input type="checkbox" id="set-haptics"><i></i></label></div>
+      <div class="set-row"><span>👆 بازی با یک لمس</span><label class="switch"><input type="checkbox" id="set-onetap"><i></i></label></div>
+      <p class="muted small">در حالت عادی با لمس اول کارت بالا می‌آید و با لمس دوم بازی می‌شود.</p>
+    </div>
+  </div>
+
+  <!-- قوانین -->
+  <div class="modal" id="modal-rules">
+    <div class="modal-card scroll">
+      <div class="modal-head"><h3>📖 قوانین</h3><button class="icon-btn sm" data-close>✕</button></div>
+      <h4>♠ حکم</h4>
+      <ul>
+        <li>۴ بازیکن در دو تیم؛ یارها روبه‌روی هم.</li>
+        <li>دست اول کارت‌ها رو به بالا پخش می‌شود؛ اولین آس، <b>حاکم</b> را مشخص می‌کند.</li>
+        <li>حاکم با دیدن ۵ کارت اول، خال حکم را اعلام می‌کند؛ سپس ۴+۴ کارت پخش می‌شود.</li>
+        <li>پیروی از خال زمین اجباری است. فقط وقتی آن خال را نداری می‌توانی بُر بزنی.</li>
+        <li>اولین تیمی که ۷ دست ببرد، آن دور را می‌برد.</li>
+        <li><b>امتیاز:</b> ۷ دست = ۱ · کُت (۷ به ۰) = ۲ · شلم (۱۳ دست) = ۳</li>
+        <li>وقتی تیمی ۷ به ۰ جلو باشد، بازی ادامه می‌یابد تا کُت قطعی شود یا شلم.</li>
+        <li>اگر تیم حاکم ببازد، حاکمی به نفر بعدی می‌رسد.</li>
+      </ul>
+      <h4>♦ شلم</h4>
+      <ul>
+        <li>به هر نفر ۱۲ کارت و ۴ کارت وسط (خاک).</li>
+        <li>بید از ۱۰۰ تا ۱۶۵ با گام ۵. پاس = خروج از بید.</li>
+        <li>حاکم ۴ کارت وسط را برمی‌دارد، ۴ کارت دور می‌ریزد و حکم را اعلام می‌کند.</li>
+        <li>آس و ده = ۱۰ · پنج = ۵ · هر دست = ۵ → مجموع ۱۶۵.</li>
+        <li>کارت‌های دورریخته و ۵ امتیازش مال تیم حاکم است.</li>
+        <li>رسیدن به بید: هر تیم امتیاز خودش. نرسیدن: تیم حاکم منفیِ بید.</li>
+        <li><b>شلم کامل</b> (همه دست‌ها): ۳۳۰+ · اعلام شلم (۱۶۵) و نرسیدن: ۳۳۰−</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+  <div class="conn-badge" id="conn-badge">⚡ در حال اتصال مجدد…</div>
+</div>
+<script src="/audio.js"></script>
+<script src="/app.js"></script>
+</body>
+</html>

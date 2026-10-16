@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: persian-cards
+    runtime: node
+    plan: free
+    buildCommand: npm install
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "20"
+      - key: BOT_TOKEN
+        sync: false
+      - key: APP_SHORT_NAME
+        sync: false
+      - key: BOT_MODE
+        value: webhook
+      - key: ALLOW_DEV_LOGIN
+        value: "false"
